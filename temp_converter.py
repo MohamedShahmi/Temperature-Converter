@@ -1,91 +1,132 @@
 import tkinter as tk
 from tkinter import messagebox
 
-# Functions for temperature conversion
-def celsius_to_fahrenheit(celsius):
-    return (celsius * 9/5) + 32
+# Conversion Functions 
+def celsius_to_fahrenheit(c): 
+    return (c * 9/5) + 32
+def celsius_to_kelvin(c): 
+    return c + 273.15
+def fahrenheit_to_celsius(f): 
+    return (f - 32) * 5/9
+def fahrenheit_to_kelvin(f): 
+    return (f - 32) * 5/9 + 273.15
+def kelvin_to_celsius(k): 
+    return k - 273.15
+def kelvin_to_fahrenheit(k): 
+    return (k - 273.15) * 9/5 + 32
 
-def celsius_to_kelvin(celsius):
-    return celsius + 273.15
-
-def fahrenheit_to_celsius(fahrenheit):
-    return (fahrenheit - 32) * 5/9
-
-def fahrenheit_to_kelvin(fahrenheit):
-    return (fahrenheit - 32) * 5/9 + 273.15
-
-def kelvin_to_celsius(kelvin):
-    return kelvin - 273.15
-
-def kelvin_to_fahrenheit(kelvin):
-    return (kelvin - 273.15) * 9/5 + 32
-
-# Function to handle conversion based on user input
-def convert_temperature():
+# Conversion Trigger 
+def convert_temperature(event=None):
     try:
         temp = float(entry_temp.get())
-        
-        if var.get() == "Celsius to Fahrenheit":
-            result = celsius_to_fahrenheit(temp)
-            result_label.config(text=f"{temp} Celsius = {result} Fahrenheit")
-        elif var.get() == "Celsius to Kelvin":
-            result = celsius_to_kelvin(temp)
-            result_label.config(text=f"{temp} Celsius = {result} Kelvin")
-        elif var.get() == "Fahrenheit to Celsius":
-            result = fahrenheit_to_celsius(temp)
-            result_label.config(text=f"{temp} Fahrenheit = {result} Celsius")
-        elif var.get() == "Fahrenheit to Kelvin":
-            result = fahrenheit_to_kelvin(temp)
-            result_label.config(text=f"{temp} Fahrenheit = {result} Kelvin")
-        elif var.get() == "Kelvin to Celsius":
-            result = kelvin_to_celsius(temp)
-            result_label.config(text=f"{temp} Kelvin = {result} Celsius")
-        elif var.get() == "Kelvin to Fahrenheit":
-            result = kelvin_to_fahrenheit(temp)
-            result_label.config(text=f"{temp} Kelvin = {result} Fahrenheit")
-    except ValueError:
-        messagebox.showerror("Invalid Input", "Please enter a valid numeric value.")
+        conversion = var.get()
 
-# Create the main window
+        if conversion == "Select Conversion Type":
+            messagebox.showwarning("Select Type", "Please choose a conversion type.")
+            return
+
+        units = {
+            "Celsius": "°C",
+            "Fahrenheit": "°F",
+            "Kelvin": "K"
+        }
+
+        if conversion == "Celsius to Fahrenheit":
+            result = celsius_to_fahrenheit(temp)
+            description = f"{temp} °C is equal to {round(result, 2)} °F"
+        elif conversion == "Celsius to Kelvin":
+            result = celsius_to_kelvin(temp)
+            description = f"{temp} °C is equal to {round(result, 2)} K"
+        elif conversion == "Fahrenheit to Celsius":
+            result = fahrenheit_to_celsius(temp)
+            description = f"{temp} °F is equal to {round(result, 2)} °C"
+        elif conversion == "Fahrenheit to Kelvin":
+            result = fahrenheit_to_kelvin(temp)
+            description = f"{temp} °F is equal to {round(result, 2)} K"
+        elif conversion == "Kelvin to Celsius":
+            result = kelvin_to_celsius(temp)
+            description = f"{temp} K is equal to {round(result, 2)} °C"
+        elif conversion == "Kelvin to Fahrenheit":
+            result = kelvin_to_fahrenheit(temp)
+            description = f"{temp} K is equal to {round(result, 2)} °F"
+
+        result_label.config(text=description)
+    except ValueError:
+        messagebox.showerror("Invalid Input", "Please enter a valid number.")
+
+# Reset Fields
+def clear_fields():
+    entry_temp.delete(0, tk.END)
+    var.set("Select Conversion Type")
+    result_label.config(text="Enter a value and select a conversion")
+
+# UI Setup 
 window = tk.Tk()
 window.title("Temperature Converter")
+window.geometry("500x400")
+window.configure(bg="#e6f2ff")
+window.minsize(400, 350)
 
-# Set the window size and color
-window.geometry("400x300")
-window.config(bg="#f0f8ff")
+window.grid_rowconfigure(0, weight=1)
+window.grid_columnconfigure(0, weight=1)
 
-# Title Label
-title_label = tk.Label(window, text="Temperature Converter", font=("Helvetica", 16, "bold"), bg="#f0f8ff", fg="#0066cc")
-title_label.pack(pady=20)
+# Card container
+card_bg = "#f5f0ff"
+card = tk.Frame(window, bg=card_bg, bd=2, relief="raised", padx=20, pady=20)
+card.place(relx=0.5, rely=0.5, anchor='center')
 
-# Input Field for Temperature
-entry_temp = tk.Entry(window, font=("Helvetica", 14), width=20, borderwidth=2, relief="solid", fg="#333")
-entry_temp.pack(pady=10)
+# Title
+title_label = tk.Label(card, text="Temperature Converter", font=("Helvetica", 18, "bold"), bg=card_bg, fg="#333399")
+title_label.pack(pady=15)
 
-# Dropdown menu for temperature conversion types
-var = tk.StringVar(window)
-var.set("Celsius to Fahrenheit")  # default value
+# Entry field
+entry_temp = tk.Entry(card, font=("Helvetica", 14), width=25, relief="solid", justify="center")
+entry_temp.pack(pady=(10, 3))
 
-conversion_options = [
+# Input helper message
+input_hint = tk.Label(card, text="(Enter a temperature value, e.g., 37.5)", font=("Helvetica", 10, "italic"), bg=card_bg, fg="#777")
+input_hint.pack(pady=(0, 10))
+
+# Dropdown menu
+options = [
     "Celsius to Fahrenheit", 
-    "Celsius to Kelvin", 
+    "Celsius to Kelvin",
     "Fahrenheit to Celsius", 
-    "Fahrenheit to Kelvin", 
+    "Fahrenheit to Kelvin",
     "Kelvin to Celsius", 
     "Kelvin to Fahrenheit"
 ]
+var = tk.StringVar(value="Select Conversion Type")
+dropdown = tk.OptionMenu(card, var, *options)
+dropdown.config(font=("Helvetica", 12), width=22, bg="#4da6ff", fg="white", highlightthickness=0)
+dropdown["menu"].config(font=("Helvetica", 11))
+dropdown.pack(pady=5)
 
-dropdown_menu = tk.OptionMenu(window, var, *conversion_options)
-dropdown_menu.config(font=("Helvetica", 12), width=20, bg="#80c7e3", fg="white")
-dropdown_menu.pack(pady=10)
+# Dropdown hint
+dropdown_hint = tk.Label(card, text="(Choose the conversion type)", font=("Helvetica", 10, "italic"), bg=card_bg, fg="#777")
+dropdown_hint.pack(pady=(0, 10))
 
-# Convert Button
-convert_button = tk.Button(window, text="Convert", font=("Helvetica", 14, "bold"), bg="#28a745", fg="white", command=convert_temperature)
-convert_button.pack(pady=15)
+# Buttons
+button_frame = tk.Frame(card, bg=card_bg)
+button_frame.pack(pady=10)
 
-# Result Label
-result_label = tk.Label(window, text="Enter a temperature and select a conversion type", font=("Helvetica", 14), bg="#f0f8ff", fg="#333")
+convert_button = tk.Button(button_frame, text="Convert", font=("Helvetica", 14, "bold"), bg="#28a745", fg="white", command=convert_temperature)
+convert_button.pack(side="left", padx=10)
+
+clear_button = tk.Button(button_frame, text="Clear", font=("Helvetica", 14, "bold"), bg="#dc3545", fg="white", command=clear_fields)
+clear_button.pack(side="left", padx=10)
+
+# Result label
+result_label = tk.Label(card, text="Enter a value and select a conversion", font=("Helvetica", 14), bg=card_bg, fg="#333")
 result_label.pack(pady=10)
 
-# Run the window
+# Responsive centering
+def resize_center(event=None):
+    card.place(relx=0.5, rely=0.5, anchor='center')
+
+window.bind('<Configure>', resize_center)
+resize_center()
+
+window.bind('<Return>', convert_temperature)
+
 window.mainloop()
