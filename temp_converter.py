@@ -76,15 +76,15 @@ card = tk.Frame(window, bg=card_bg, bd=2, relief="raised", padx=20, pady=20)
 card.place(relx=0.5, rely=0.5, anchor='center')
 
 # Title
-title_label = tk.Label(card, text="Temperature Converter", font=("Helvetica", 18, "bold"), bg=card_bg, fg="#333399")
+title_label = tk.Label(card, text="Temperature Converter", font=("Times New Roman", 18, "bold"), bg=card_bg, fg="#333399")
 title_label.pack(pady=15)
 
 # Entry field
-entry_temp = tk.Entry(card, font=("Helvetica", 14), width=25, relief="solid", justify="center")
+entry_temp = tk.Entry(card, font=("Times New Roman", 14), width=25, relief="solid", justify="center")
 entry_temp.pack(pady=(10, 3))
 
 # Input helper message
-input_hint = tk.Label(card, text="(Enter a temperature value, e.g., 37.5)", font=("Helvetica", 10, "italic"), bg=card_bg, fg="#777")
+input_hint = tk.Label(card, text="(Enter a temperature value, e.g., 37.5)", font=("Times New Roman", 10, "italic"), bg=card_bg, fg="#777")
 input_hint.pack(pady=(0, 10))
 
 # Dropdown menu
@@ -98,26 +98,26 @@ options = [
 ]
 var = tk.StringVar(value="Select Conversion Type")
 dropdown = tk.OptionMenu(card, var, *options)
-dropdown.config(font=("Helvetica", 12), width=22, bg="#4da6ff", fg="white", highlightthickness=0)
-dropdown["menu"].config(font=("Helvetica", 11))
+dropdown.config(font=("Times New Roman", 12), width=22, bg="#4da6ff", fg="white", highlightthickness=0)
+dropdown["menu"].config(font=("Times New Roman", 11))
 dropdown.pack(pady=5)
 
 # Dropdown hint
-dropdown_hint = tk.Label(card, text="(Choose the conversion type)", font=("Helvetica", 10, "italic"), bg=card_bg, fg="#777")
+dropdown_hint = tk.Label(card, text="(Choose the conversion type)", font=("Times New Roman", 10, "italic"), bg=card_bg, fg="#777")
 dropdown_hint.pack(pady=(0, 10))
 
 # Buttons
 button_frame = tk.Frame(card, bg=card_bg)
 button_frame.pack(pady=10)
 
-convert_button = tk.Button(button_frame, text="Convert", font=("Helvetica", 14, "bold"), bg="#28a745", fg="white", command=convert_temperature)
+convert_button = tk.Button(button_frame, text="Convert", font=("Times New Roman", 14, "bold"), bg="#28a745", fg="white", command=convert_temperature)
 convert_button.pack(side="left", padx=10)
 
-clear_button = tk.Button(button_frame, text="Clear", font=("Helvetica", 14, "bold"), bg="#dc3545", fg="white", command=clear_fields)
+clear_button = tk.Button(button_frame, text="Clear", font=("Times New Roman", 14, "bold"), bg="#dc3545", fg="white", command=clear_fields)
 clear_button.pack(side="left", padx=10)
 
 # Result label
-result_label = tk.Label(card, text="Enter a value and select a conversion", font=("Helvetica", 14), bg=card_bg, fg="#333")
+result_label = tk.Label(card, text="Enter a value and select a conversion", font=("Times New Roman", 14), bg=card_bg, fg="#333")
 result_label.pack(pady=10)
 
 # Responsive centering
